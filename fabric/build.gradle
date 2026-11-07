@@ -1,0 +1,34 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+base { archivesName = 'bonfire-fabric' }
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    compileOnly project(':core')
+    compileOnly 'net.luckperms:api:5.4'
+}
+
+processResources {
+    def v = project.version
+    inputs.property 'version', v
+    filesMatching('fabric.mod.json') { expand version: v }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+    from(project(':core').sourceSets.main.output) {
+        exclude 'net/ikelene/bonfire/core/adventure/**'
+    }
+}

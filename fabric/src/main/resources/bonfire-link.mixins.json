@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.ikelene.bonfire.fabric.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "CommandSourceStackAccessor",
+    "CommandsMixin",
+    "PlayerAdvancementsMixin",
+    "PlayerListMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

@@ -1,0 +1,18 @@
+name: BonfireLink
+version: '${version}'
+main: net.ikelene.bonfire.paper.BonfirePaper
+api-version: '1.20'
+folia-supported: false
+author: Ikelene
+description: Connects this server to Ember (Velora or a self-hosted Ember instance) - chat, events, live status and console.
+website: https://velora.ikelene.net/chat
+softdepend: [LuckPerms, SuperVanish, PremiumVanish, Essentials]
+commands:
+  bonfire:
+    aliases: [ember]
+    description: Ember Link (status for staff; server/link/unlink/reload from the console)
+    usage: /bonfire <status|server <url>|link <code>|unlink|reload>
+permissions:
+  bonfire.status:
+    description: Use /bonfire status
+    default: op

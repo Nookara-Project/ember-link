@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+}
+
+base { archivesName = 'bonfire-velocity' }
+
+dependencies {
+    compileOnly project(':core')
+    compileOnly "com.velocitypowered:velocity-api:${velocity_api_version}"
+    annotationProcessor "com.velocitypowered:velocity-api:${velocity_api_version}"
+    compileOnly 'net.luckperms:api:5.4'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+}
+
+def generatedVersionDir = layout.buildDirectory.dir('generated/sources/version')
+tasks.register('generateVersion') {
+    def v = project.version
+    inputs.property 'version', v
+    outputs.dir generatedVersionDir
+    doLast {
+        def f = generatedVersionDir.get().file('net/ikelene/bonfire/velocity/BuildInfo.java').asFile
+        f.parentFile.mkdirs()
+        f.text = "package net.ikelene.bonfire.velocity;\n\nfinal class BuildInfo {\n    static final String VERSION = \"${v}\";\n    private BuildInfo() {}\n}\n"
+    }
+}
+sourceSets.main.java.srcDir(generatedVersionDir)
+compileJava.dependsOn 'generateVersion'
+
+jar {
+    from(project(':core').sourceSets.main.output)
+}

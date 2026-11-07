@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+base { archivesName = 'bonfire-paper' }
+
+dependencies {
+    compileOnly project(':core')
+    compileOnly "io.papermc.paper:paper-api:${paper_api_version}"
+    compileOnly 'net.luckperms:api:5.4'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+}
+
+processResources {
+    def v = project.version
+    inputs.property 'version', v
+    filesMatching('plugin.yml') { expand version: v }
+}
+
+jar {
+    from(project(':core').sourceSets.main.output)
+}
